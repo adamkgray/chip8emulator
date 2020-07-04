@@ -4,13 +4,12 @@
   "description": "Chip 8 Emulator",
   "main": "src/index.js",
   "repository": "git@github.com:adamkgray/chip8emulator.git",
-  "author": "Adam K Gray",
   "license": "MIT",
   "private": false,
   "devDependencies": {
-    "jest": "^26.1.0"
+    "jasmine": "^3.5.0"
   },
   "scripts": {
-    "test": "jest"
+    "test": "jasmine"
   }
 }
