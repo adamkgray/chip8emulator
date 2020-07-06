@@ -15,7 +15,7 @@ class Cpu {
         const upperBits = this.memory[this.programCounter];
         const lowerBits = this.memory[this.programCounter + 1];
         this.opcode = ((upperBits << 8) | lowerBits);
-        this.programCounter += 2;
+        this.programCounter += 2
     }
 
     decodeOpcode() {
@@ -85,7 +85,7 @@ class Cpu {
                         this.instruction = "8XYE";
                         break;
                     default:
-                        throw (`FATAL ERROR: unknown opcode '${opcode}' like 8XXX`);
+                        throw (`FATAL ERROR: unknown opcode '${this.opcode}' like 8XXX`);
                         break;
                 }
                 break;
@@ -113,7 +113,7 @@ class Cpu {
                         this.instruction = "EXA1";
                         break;
                     default:
-                        throw (`FATAL ERROR: unknown opcode '${opcode}' like EXXX`);
+                        throw (`FATAL ERROR: unknown opcode '${this.opcode}' like EXXX`);
                         break;
                 }
                 break;
@@ -147,21 +147,114 @@ class Cpu {
                         this.instruction = "FX65";
                         break;
                     default:
-                        throw (`FATAL ERROR: unknown opcode '${opcode}' like FXXX`);
+                        throw (`FATAL ERROR: unknown opcode '${this.opcode}' like FXXX`);
                         break;
                 }
                 break;
             default:
-                throw (`FATAL ERROR: unknown opcode '${opcode}' (no  matched pattern)`)
+                throw (`FATAL ERROR: unknown opcode '${this.opcode}' (no  matched pattern)`)
                 break;
         }
         return;
     }
 
     executeInstruction() {
+        const x = ((this.opcode & 0x0F00) >> 8);
+        const y = ((this.opcode & 0x00F0) >> 4);
+        switch (this.instruction) {
+            case "00E0":
+                /* Clear the display */
+                /* TODO */
+                break;
+            case "00EE":
+                /* Return from a subroutine */
+                this.programCounter = this.stack.pop();
+                break;
+            case "0NNN":
+                /* Jump to a machine code routine at nnn */
+                this.programCounter = this.opcode & 0x0FFF;
+                break;
+            case "1NNN":
+                /* Jump to location nnn */
+                this.programCounter = this.opcode & 0x0FFF;
+                break;
+            case "2NNN":
+                /* Call subroutine at nnn */
+                this.stack.push(this.programCounter);
+                this.programCounter = this.opcode & 0x0FFF;
+                break;
+            case "3XNN":
+                /* Skip next instruction if Vx = nn */
+                if (this.registers[x] == (this.opcode & 0x00FF)) {
+                    this.programCounter += 2;
+                }
+                break;
+            case "4XNN":
+                break;
+            case "4XNN":
+                break;
+            case "5XY0":
+                break;
+            case "6XNN":
+                break;
+            case "7XNN":
+                break;
+            case "8XY0":
+                break;
+            case "8XY1":
+                break;
+            case "8XY2":
+                break;
+            case "8XY3":
+                break;
+            case "8XY4":
+                break;
+            case "8XY5":
+                break;
+            case "8XY6":
+                break;
+            case "8XY7":
+                break;
+            case "8XYE":
+                break;
+            case "9XY0":
+                break;
+            case "ANNN":
+                break;
+            case "BNNN":
+                break;
+            case "CXNN":
+                break;
+            case "DXYN":
+                break;
+            case "EX9E":
+                break;
+            case "EXA1":
+                break;
+            case "FX07":
+                break;
+            case "FX0A":
+                break;
+            case "FX15":
+                break;
+            case "FX18":
+                break;
+            case "FX1E":
+                break;
+            case "FX29":
+                break;
+            case "FX33":
+                break;
+            case "FX55":
+                break;
+            case "FX65":
+                break;
+            default:
+                throw (`FATAL ERROR: unknown instruction '${this.instruction}'`);
+                break;
+        }
         return;
     }
-
 }
 
 module.exports = { Cpu };

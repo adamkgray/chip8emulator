@@ -16,7 +16,9 @@ describe("Cpu", () => {
         expect(this.cpu.opcode).toEqual(0x1234);
     });
 
-    it("should increment the program counter by 2 after fetching an opcode", () => {
+    it("should increment the program counter after fetching an opcode", () => {
+        this.cpu.memory[0x200] = 0x12;
+        this.cpu.memory[0x200 + 1] = 0x34;
         this.cpu.fetchOpcode();
         expect(this.cpu.programCounter).toEqual(0x200 + 2);
     });
