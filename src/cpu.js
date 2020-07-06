@@ -14,7 +14,7 @@ class Cpu {
     fetchOpcode() {
         const upperBits = this.memory[this.programCounter];
         const lowerBits = this.memory[this.programCounter + 1];
-        this.opcode = (upperBits << 8) | (lowerBits);
+        this.opcode = ((upperBits << 8) | lowerBits);
         this.programCounter += 2;
     }
 
@@ -33,6 +33,7 @@ class Cpu {
                         this.instruction = "0NNN";
                         break;
                 }
+                break;
             case 0x1000:
                 this.instruction = "1NNN";
                 break;
@@ -87,6 +88,7 @@ class Cpu {
                         throw (`FATAL ERROR: unknown opcode '${opcode}' like 8XXX`);
                         break;
                 }
+                break;
             case 0x9000:
                 this.instruction = "9XY0";
                 break;
@@ -106,12 +108,15 @@ class Cpu {
                 switch (this.opcode & 0xFF) {
                     case 0x9E:
                         this.instruction = "EX9E";
+                        break;
                     case 0xA1:
                         this.instruction = "EXA1";
+                        break;
                     default:
                         throw (`FATAL ERROR: unknown opcode '${opcode}' like EXXX`);
                         break;
                 }
+                break;
             case 0xF000:
                 switch (this.opcode & 0xFF) {
                     case 0x07:
@@ -144,12 +149,13 @@ class Cpu {
                     default:
                         throw (`FATAL ERROR: unknown opcode '${opcode}' like FXXX`);
                         break;
-
                 }
+                break;
             default:
                 throw (`FATAL ERROR: unknown opcode '${opcode}' (no  matched pattern)`)
                 break;
         }
+        return;
     }
 
     executeInstruction() {

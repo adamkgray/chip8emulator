@@ -7,10 +7,11 @@
   "license": "MIT",
   "private": false,
   "devDependencies": {
+    "istanbul": "^0.4.5",
     "jasmine": "^3.5.0"
   },
   "scripts": {
-    "test": "jasmine",
+    "test": "istanbul cover node_modules/jasmine/bin/jasmine.js",
     "start": "node src/index.js"
   }
 }
