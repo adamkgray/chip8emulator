@@ -163,16 +163,17 @@ class Cpu {
         const y = ((this.opcode & 0x00F0) >> 4);
         switch (this.instruction) {
             case "00E0":
-                /* Clear the display */
+                /* Clear the Screen */
                 /* TODO */
                 break;
             case "00EE":
-                /* Return from a subroutine */
+                /* Return from subroutine */
                 this.programCounter = this.stack.pop();
                 break;
             case "0NNN":
-                /* Jump to a machine code routine at nnn */
-                this.programCounter = this.opcode & 0x0FFF;
+                /* Jump to location nnn */
+                /* TODO */
+                //? this.programCounter = this.opcode & 0x0FFF;
                 break;
             case "1NNN":
                 /* Jump to location nnn */
@@ -190,26 +191,60 @@ class Cpu {
                 }
                 break;
             case "4XNN":
-                break;
-            case "4XNN":
+                /* Skip next instruction if Vx != nn */
+                if (this.registers[x] != (this.opcode & 0x00FF)) {
+                    this.programCounter += 2;
+                }
                 break;
             case "5XY0":
+                /* Skip next instruction if Vx = Vy */
+                if (this.registers[x] == this.registers[y]) {
+                    this.programCounter += 2;
+                }
                 break;
             case "6XNN":
+                /* Set Vx = nn */
+                this.registers[x] = (this.opcode & 0x00FF);
                 break;
             case "7XNN":
+                /* Set Vx = Vx + nn */
+                this.registers[x] += (this.opcode & 0x0FF);
                 break;
             case "8XY0":
+                /* Set Vx = Vy */
+                this.registers[x] = this.registers[y];
                 break;
             case "8XY1":
+                /* Set Vx = Vx OR Vy */
+                this.registers[x] |= this.registers[y];
                 break;
             case "8XY2":
+                /* Set Vx = Vx AND Vy */
+                this.registers[x] &= this.registers[y];
                 break;
             case "8XY3":
+                /* Set Vx = Vx XOR Vy */
+                this.registers[x] ^= this.registers[y];
                 break;
             case "8XY4":
+                /* Add VY to VX.If result >FF, then VF=1 */
+                this.registers[x] += this.registers[y];
+                if (this.registers[x] > 0xFF) {
+                    this.registers[0xF] = 1;
+                    this.registers[x] -= 0x100;
+                } else {
+                    this.registers[0xF] = 0;
+                }
                 break;
             case "8XY5":
+                /* Subtract VY from VX. If VX<VY, then VF=0 */
+                this.registers[x] -= this.registers[y];
+                if (this.registers[x] < 0) {
+                    this.registers[0xF] = 0;
+                    this.registers[x] += 0x100;
+                } else {
+                    this.registers[0xF] = 1;
+                }
                 break;
             case "8XY6":
                 break;

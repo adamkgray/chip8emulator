@@ -79,14 +79,6 @@ describe("Cpu", () => {
         expect(this.cpu.instruction).toEqual("4XNN");
     });
 
-    it("should decode 4XNN", () => {
-        this.cpu.memory[0x200] = 0x40;
-        this.cpu.memory[0x200 + 1] = 0x00;
-        this.cpu.fetchOpcode();
-        this.cpu.decodeOpcode();
-        expect(this.cpu.instruction).toEqual("4XNN");
-    });
-
     it("should decode 5XY0", () => {
         this.cpu.memory[0x200] = 0x50;
         this.cpu.memory[0x200 + 1] = 0x00;
