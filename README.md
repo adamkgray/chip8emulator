@@ -1,5 +1,17 @@
 # chip8emulator
 
+## To do
+
+- [x] add resources to README
+- [x] choose language and testing framework
+- [x] write `Cpu` class (cpu.js)
+- [x] write `fetchOpcode`
+- [x] write `decodeOpcode`
+- [ ] write `executeInstruction`
+- [ ] test fetch, decode and execute methods
+- [ ] handle display (OpenGL? Ncurses?)
+- [ ] handle gamepad input
+
 ## Resources
 
 * [Technical Reference](http://devernay.free.fr/hacks/chip8/C8TECH10.HTM)
@@ -23,6 +35,12 @@ cd /code
 
 ```bash
 yarn install
+```
+
+## Start
+
+``` bash
+yarn run start
 ```
 
 ## Tests
