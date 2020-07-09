@@ -9,6 +9,7 @@
 - [x] write `decodeOpcode`
 - [ ] write `executeInstruction`
 - [ ] test fetch, decode and execute methods
+- [ ] write a better `stack` (maybe a class, throws error when maximum size exceeded etc.)
 - [ ] handle display (OpenGL? Ncurses?)
 - [ ] handle gamepad input
 
