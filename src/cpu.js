@@ -231,6 +231,7 @@ class Cpu {
                 this.registers[x] += this.registers[y];
                 if (this.registers[x] > 0xFF) {
                     this.registers[0xF] = 1;
+                    // this is supposed to be an 8-bit int, so we need to emulate integer overflow
                     this.registers[x] -= 0x100;
                 } else {
                     this.registers[0xF] = 0;
@@ -241,6 +242,7 @@ class Cpu {
                 this.registers[x] -= this.registers[y];
                 if (this.registers[x] < 0) {
                     this.registers[0xF] = 0;
+                    // this is supposed to be an 8-bit int, so we need to emulate integer overflow
                     this.registers[x] += 0x100;
                 } else {
                     this.registers[0xF] = 1;
